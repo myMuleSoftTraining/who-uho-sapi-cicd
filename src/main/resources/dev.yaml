@@ -1,0 +1,13 @@
+"http":
+  "port": "8091"
+ 
+"db":
+  "host" : "localhost"
+  "port" : "1521"
+  "user" : "system"
+  "password" : "![+MMIjiAaSm10IaCEUvkNxw==]"
+  "instance" : "xe"
+  
+
+  
+ 

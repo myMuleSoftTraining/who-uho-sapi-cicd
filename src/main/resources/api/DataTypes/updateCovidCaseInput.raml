@@ -1,0 +1,80 @@
+#%RAML 1.0 Library
+usage: To define the input data type to register the covid case.
+types: 
+  inputDatatType:
+      properties:
+        caseID : 
+          type: number
+          required: true
+        source:
+          type: string
+          required: true
+          minLength: 1
+          maxLength: 60
+          example: The johns hopkins hospital
+        caseType:
+          type: string
+          required: true
+          enum: [positive, recovered, vaccinated, death]
+          example: positive
+        firstName: 
+          type: string
+          minLength: 1
+          maxLength: 30
+          example: John
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 30
+          example: Nixon
+        phone:
+          type: string
+          required: true
+          pattern: ^[\+]?[(]?[0-9]{3,4}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$
+          example: 985-896-8956
+        email:
+          type: string
+          required: false
+          pattern: ^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$
+          example: john.n@gmail.com
+        dateOfBirth:
+          type: string
+          required: true
+          pattern: ^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
+          example: 1989-04-26
+        nationalID:
+          type: string
+          required: true
+          pattern: ^[0-9]{3}[-]?[0-9]{2}[-]?[0-9]{4}$
+          example: 209-49-6193
+        nationalIDType:
+          type: string
+          required: true
+          enum: [SSN]
+          example: SSN
+        address: 
+          type: addressType
+  addressType:
+    properties:
+      streetAddress:
+        type: string
+        required: true
+        example: 1600 Pennsylvania Abenue NW
+      city:
+        type: string
+        required: true
+        example: Washington
+      state: 
+        type: string
+        required: true
+        example: DC
+      postal:
+        type: string
+        required: true
+        pattern: ^\d{5}-\d{4}|\d{5}|[A-Z]\d[A-Z] \d[A-Z]\d$
+        example: "07039"
+      country:
+        type: string
+        required: true
+        example: USA
+

@@ -1,0 +1,34 @@
+#%RAML 1.0 Library
+usage: state wise report data type
+types:
+  reportResponse:
+    properties:
+      state:
+        type: string
+        required: false
+      report:
+        type: reportType
+  reportType:
+    properties:
+      total:
+        type: string
+        required: true
+        example: "467744"
+      positive: 
+        type: string
+        required: true
+        example: "436744"
+      recovered:
+        type: string
+        required: true
+        example: "436744"
+      death:
+        type: string
+        required: true
+        example: "436744"
+      vaccinated:
+        type: string
+        required: true
+        example: "436744"
+
+  

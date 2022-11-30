@@ -1,0 +1,22 @@
+%dw 2.0
+
+type auto_1cb2b90a_fbd2_4b2f_ac41_1b23d6b31dc6_Input_Payload = {|
+  SOURCE: String, 
+  CASE_TYPE: "recovered" | "death" | "positive" | "vaccinated", 
+  FIRST_NAME: String, 
+  LAST_NAME: String, 
+  PHONE: String, 
+  EMAIL: String | Null, 
+  DATE_OF_BIRTH: String, 
+  NATIONAL_ID: String, 
+  NATIONAL_ID_TYPE: String, 
+  STREET_ADDRESS: String, 
+  CITY: String, 
+  STATE: String, 
+  POSTAL: String, 
+  COUNTRY: String, 
+  UPDATE_DATE: String, 
+  CREATE_BY: String, 
+  UPDATE_BY: String
+|}
+

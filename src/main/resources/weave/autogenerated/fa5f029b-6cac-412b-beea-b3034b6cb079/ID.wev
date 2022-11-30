@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_fa5f029b_6cac_412b_beea_b3034b6cb079_Output_Variables_NATIONAL_ID = String
+

@@ -1,0 +1,149 @@
+#%RAML 1.0
+title: ehub-sapi
+version: v1
+baseUri: http://{environment}/covid/{version}/
+baseUriParameters:
+  environment:
+    description: DEV, TEST, UAT, PROD
+    enum: [uho-dev-uhub-sapi.us-e2.cloudhub.io,uho-test-uhub-sapi.us-e2.cloudhub.io,uho-uat-uhub-sapi.us-e2.cloudhub.io,uho-prod-uhub-sapi.us-e2.cloudhub.io]
+uses:
+  registerInputdataType: DataTypes/resgisterCovidCaseInput.raml
+  updateInputdataType: DataTypes/updateCovidCaseInput.raml
+  commonDataType: DataTypes/common-data-types.raml
+  getResponseDataType: DataTypes/getByNationalIDResponse.raml
+  reportResponse: DataTypes/reportByStateResponse.raml
+  resourceTypes: ResourceTypes/resourceType.raml
+types:
+  outputDataType: !include DataTypes/resgisterCovidCaseOutput.raml
+traits:
+  client-id-header: !include Traits/client-id.raml
+  transaction-id-header: !include Traits/transaction-id.raml
+  correlation-id-header: !include Traits/correlation-id.raml
+
+/cases:
+  is: [transaction-id-header,correlation-id-header,client-id-header]
+  description: To register covid cases
+  post:
+    body:
+      application/json:
+        type: registerInputdataType.inputDatatType
+        example: !include Examples/register-covid-case-request.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: outputDataType
+            example: !include Examples/register-covid-case-response.json
+      400:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType400.json
+      500:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType500.json
+      503:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType503.json
+  put:
+    description: To update covid cases to  UHUB database
+    body:
+      application/json:
+        type: updateInputdataType.inputDatatType
+        example: !include Examples/update-covid-case-request.json
+    responses:
+      200:
+        body:
+          application/json:
+            type: outputDataType
+            example: !include Examples/register-covid-case-response.json
+      400:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType400.json
+      500:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType500.json
+      503:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType503.json
+  /{nationalID}:
+    is: [transaction-id-header,correlation-id-header,client-id-header]
+    description: To respond covid case details by nationalID
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: getResponseDataType.getOutputDatatType[]
+              example: !include Examples/getBynationalIDResponse.json
+        404:
+          body:
+            application/json:
+              type: commonDataType.errorType
+              example: !include Examples/errorType404.json
+        500:
+          body:
+            application/json:
+              type: commonDataType.errorType
+              example: !include Examples/errorType500.json
+        503:
+          body:
+            application/json:
+              type: commonDataType.errorType
+              example: !include Examples/errorType503.json
+/reports:
+  is: [transaction-id-header,correlation-id-header,client-id-header]
+  description: To respond COVID case reports state wise
+  get:
+    queryParameters:
+      state:
+        type: string
+        required: false
+        example: "texas"
+    responses:
+      200:
+        body:
+          application/json:
+            type: reportResponse.reportResponse[]
+            example: !include Examples/stateWiseReportResponse.json
+      500:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType500.json
+      503:
+        body:
+          application/json:
+            type: commonDataType.errorType
+            example: !include Examples/errorType503.json
+/health-check:
+  get:
+  type:
+    resourceTypes.all: 
+      getResponseType: string
+
+
+
+    
+
+          
+        
+
+
+  
+    
+
+        
+      
+        
+

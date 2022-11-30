@@ -1,0 +1,27 @@
+%dw 2.0
+
+type auto_fa5f029b_6cac_412b_beea_b3034b6cb079_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    "transaction-id"?: String, 
+    client_id: String, 
+    client_secret: String
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| environment: "uho-uat-uhub-sapi.us-e2.cloudhub.io" |}, 
+  version: String, 
+  localAddress: String
+|}
+

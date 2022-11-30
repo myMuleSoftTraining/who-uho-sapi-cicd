@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="insert-into-db" doc:id="fa5f029b-6cac-412b-beea-b3034b6cb079">
+		<logger level="INFO" doc:name="Logger" doc:id="2e5c019a-c8e7-4fd2-8d14-79a5c031076f" message="correlation-id: #[vars.&quot;x-correlation-id&quot;], transaction-id : #[vars.'x-transaction-id'],  message: insert to database sub-flow has started with input payload #[payload]" />
+		<db:insert doc:name="Register Covid Case To CVD_CASE_MASTER Table" doc:id="6c3eb2db-2913-434c-9a08-b9cc9e7ccf7b" config-ref="Database_Config" autoGenerateKeys="true">
+			<db:sql><![CDATA[INSERT INTO CVD_CASE_MASTER (SOURCE, CASE_TYPE, FIRST_NAME, LAST_NAME, PHONE, EMAIL, DATE_OF_BIRTH, NATIONAL_ID, NATIONAL_ID_TYPE, STREET_ADDRESS, CITY, STATE, POSTAL, COUNTRY, CREATE_DATE, UPDATE_DATE, CREATE_BY, UPDATE_BY)
+VALUES (:SOURCE, :CASE_TYPE, :FIRST_NAME, :LAST_NAME, :PHONE, :EMAIL, TO_DATE(:DATE_OF_BIRTH, 'YYYY:MM:DD'), :NATIONAL_ID, :NATIONAL_ID_TYPE, :STREET_ADDRESS, :CITY, :STATE, :POSTAL, :COUNTRY, TO_DATE(:CREATE_DATE,'YYYY-MM-DD'), TO_DATE(:UPDATE_DATE, 'YYYY-MM-DD'), :CREATE_BY, :UPDATE_BY)]]></db:sql>
+			<db:input-parameters><![CDATA[#[payload]]]></db:input-parameters>
+			<db:auto-generated-keys-column-names>
+				<db:auto-generated-keys-column-name value="CASE_ID" />
+			</db:auto-generated-keys-column-names>
+		</db:insert>
+		<logger level="INFO" doc:name="Logger" doc:id="abb80061-7431-472a-b418-edd15190e837" message="correlation-id: #[vars.&quot;x-correlation-id&quot;], transaction-id : #[vars.'x-transaction-id'],  message: insert to database sub-flow has ended." />
+	</sub-flow>
+	<sub-flow name="update-db" doc:id="1cb2b90a-fbd2-4b2f-ac41-1b23d6b31dc6">
+		<logger level="INFO" doc:name="Logger" doc:id="b8ce828b-1f6b-48b4-9691-3b87455193d6" message="correlation-id: #[vars.&quot;x-correlation-id&quot;], transaction-id : #[vars.'x-transaction-id'],  message: update to database sub-flow has started with input payload #[payload]"/>
+		<db:update doc:name="Update Covid Case To CVD_CASE_MASTER Table" doc:id="24bb2441-f49c-407a-a981-757c44eee8b5" config-ref="Database_Config" autoGenerateKeys="true">
+			<db:sql><![CDATA[UPDATE CVD_CASE_MASTER 
+SET SOURCE = :SOURCE, CASE_TYPE = :CASE_TYPE, FIRST_NAME = :FIRST_NAME, LAST_NAME = :LAST_NAME, PHONE = :PHONE, EMAIL = :EMAIL, DATE_OF_BIRTH = TO_DATE(:DATE_OF_BIRTH, 'YYYY-MM-DD'), NATIONAL_ID = :NATIONAL_ID, NATIONAL_ID_TYPE = :NATIONAL_ID_TYPE, STREET_ADDRESS = :STREET_ADDRESS, CITY = :CITY, STATE = :STATE, POSTAL = :POSTAL, COUNTRY = :COUNTRY, UPDATE_DATE = TO_DATE(:UPDATE_DATE, 'YYYY-MM-DD'), CREATE_BY = :CREATE_BY, UPDATE_BY = :UPDATE_BY
+WHERE CASE_ID = :CASE_ID]]></db:sql>
+			<db:input-parameters ><![CDATA[#[payload]]]></db:input-parameters>
+			<db:auto-generated-keys-column-names >
+				<db:auto-generated-keys-column-name value="CASE_ID" />
+			</db:auto-generated-keys-column-names>
+		</db:update>
+		<logger level="INFO" doc:name="Logger" doc:id="3d761cca-2acb-4137-863d-4b150ebc6c31" message="correlation-id: #[vars.&quot;x-correlation-id&quot;], transaction-id : #[vars.'x-transaction-id'],  message: update to database sub-flow has ended."/>
+	</sub-flow>
+	<sub-flow name="get-covid-case-by-nationalID" doc:id="76eac68c-67fb-44d1-9d8b-d1223ceb2c31" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="ea57ebd1-c16b-4408-a3dd-fe80d5c6f7d9" message="get covid case by nationalID subflow has started. national-id = #[attributes.uriParams.nationalID] " />
+		<db:select doc:name="Select Covid Case by National ID" doc:id="dd760fc0-a189-4977-8ef2-27294dddba60" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM CVD_CASE_MASTER WHERE NATIONAL_ID = :NATIONAL_ID]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	NATIONAL_ID : vars.'NATIONAL_ID'
+}]]]></db:input-parameters>
+		</db:select>
+		<logger level="INFO" doc:name="End Logger" doc:id="e882556f-5584-4b08-a0ad-8b0205b1a873" message="get covid case by nationalID subflow has ended."/>
+	</sub-flow>
+	<sub-flow name="get-covid-reports" doc:id="bb0ebe1d-5982-491f-bebb-44316c9d95d1" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="3ca95f06-8013-484b-8cde-c46c70dbcf88" message="get covid case reports by state subflow has started. state = #[attributes.queryParams.state] " />
+		<db:select doc:name="Covid Case Reports By State" doc:id="7be2dfe3-1774-43e5-b9e9-69a0e01a1a63" config-ref="Database_Config" >
+			<db:sql ><![CDATA[#["$(vars.reportsDynamicQuery)"]]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="End Logger" doc:id="b76b9d29-af35-4774-8545-b34daa6306e1" message="get covid case reports by state subflow has ended." />
+	</sub-flow>
+</mule>

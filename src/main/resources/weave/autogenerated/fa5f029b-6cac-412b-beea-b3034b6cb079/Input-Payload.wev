@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_fa5f029b_6cac_412b_beea_b3034b6cb079_Input_Payload = {|
+  SOURCE: String, 
+  CASE_TYPE: "vaccinated", 
+  FIRST_NAME: String, 
+  LAST_NAME: String, 
+  PHONE: String, 
+  EMAIL: String | Null, 
+  DATE_OF_BIRTH: String, 
+  NATIONAL_ID: String, 
+  NATIONAL_ID_TYPE: String, 
+  STREET_ADDRESS: String, 
+  CITY: String, 
+  STATE: String, 
+  POSTAL: String, 
+  COUNTRY: String, 
+  CREATE_DATE: String, 
+  UPDATE_DATE: String, 
+  CREATE_BY: String, 
+  UPDATE_BY: String
+|}
+
