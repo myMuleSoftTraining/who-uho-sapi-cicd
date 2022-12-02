@@ -1,8 +1,15 @@
 pipeline {
   agent any
+  environment {
+    //Anypoint Platform Credentials 
+    ANYPOINT_CREDS = credentials('ANYPOINT_CREDENTIALS')
+    //Encryption key
+    ENC_KEY = credentials('ENCRYPTION_KEY')
+  }
   stages {
     stage('Build') {
       steps {
+      		echo '***Build has started***'
             bat 'mvn -B -U -e -V clean -DskipTests package'
       }
     }
@@ -15,8 +22,14 @@ pipeline {
     }
 
      stage('Deployment') {
+       environment {
+    //DEV environment Specific credentials
+    	CLIENT_ID = credentials('DEV_CLIENT_ID')
+    	CLIENT_SECRET = credentials('DEV_CLIENT_SECRET')
+  }
       steps {
-            bat 'mvn clean deploy -Pdev -DmuleDeploy -Danypoint.username=sistech23 -Danypoint.password=11GrandTerrace -Danypoint.platform.client_id=cd3e7991816740848e94f42c034cb95d -Danypoint.platform.client_secret=31d65B7471184D6783c4Bb57e0F54218 -Denc.key=abcdef0123456789'
+      		echo '***Deployment has begun***'
+            bat 'mvn clean deploy -Pdev -DmuleDeploy -Danypoint.username="%ANYPOINT_CREDS.USR%" -Danypoint.password="%ANYPOINT_CREDS.PSD%" -Danypoint.platform.client_id="%CLIENT_ID%" -Danypoint.platform.client_secret="%CLIENT_SECRET%" -Denc.key="%ENC_KEY%"'
       }
     }
   }
