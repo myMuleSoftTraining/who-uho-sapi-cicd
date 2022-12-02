@@ -29,7 +29,7 @@ pipeline {
   }
       steps {
       		echo '***Deployment has begun***'
-            bat 'mvn clean deploy -Pdev -DmuleDeploy -Danypoint.username="%ANYPOINT_CREDS.USR%" -Danypoint.password="%ANYPOINT_CREDS.PSD%" -Danypoint.platform.client_id="%CLIENT_ID%" -Danypoint.platform.client_secret="%CLIENT_SECRET%" -Denc.key="%ENC_KEY%"'
+            bat 'mvn clean deploy -Pdev -DmuleDeploy -Danypoint.username="%ANYPOINT_CREDS_USR%" -Danypoint.password="%ANYPOINT_CREDS_PSW%" -Danypoint.platform.client_id="%CLIENT_ID%" -Danypoint.platform.client_secret="%CLIENT_SECRET%" -Denc.key="%ENC_KEY%"'
       }
     }
   }
