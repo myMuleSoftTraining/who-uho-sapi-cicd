@@ -29,7 +29,7 @@
 						<extensions>true</extensions>
 						<configuration>
 							<cloudHubDeployment>
-								<applicationName>who-dev-uho-sapi</applicationName>
+								<applicationName>uho-dev-uhub-sapi</applicationName>
 								<environment>dev</environment>
 								<region>us-east-2</region>
 								<workers>1</workers>
@@ -58,7 +58,7 @@
 						<extensions>true</extensions>
 						<configuration>
 							<cloudHubDeployment>
-								<applicationName>who-test-uho-sapi</applicationName>
+								<applicationName>uho-test-uhub-sapi</applicationName>
 								<environment>test</environment>
 								<region>us-east-2</region>
 								<workers>1</workers>
