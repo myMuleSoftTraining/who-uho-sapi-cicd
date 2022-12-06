@@ -1,11 +1,11 @@
 "http":
-  "port": "8081"
+  "port": "8091"
  
 "db":
-  "host" : "localhost"
-  "port" : "1521"
-  "user" : "system"
-  "password" : "![+MMIjiAaSm10IaCEUvkNxw==]"
+  "host" : "oracle-99036-0.cloudclusters.net"
+  "port" : "10003"
+  "user" : "sistech"
+  "password" : "![My9RKBpgiqtT2ZmDL93RSg==]"
   "instance" : "xe"
   
 
