@@ -27,6 +27,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	</db:config>
 	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="fd808df5-3c60-4e10-b7eb-96f00b7d7a95" flowRef="uhub-sapi-main" />
 	<global-property doc:name="Global Property" doc:id="ec3ac104-dc30-415e-b9ca-61db14197ef0" name="env" value="dev" />
+	<global-property doc:name="Global Property" doc:id="59fa0627-6e21-4997-9888-304dbc19cea7" name="enc.key" value="abcdef0123456789" />
 
 
 </mule>
